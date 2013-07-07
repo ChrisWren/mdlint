@@ -6,6 +6,10 @@
   "scripts": {
     "test": ""
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ChrisWren/DocLinter.git"
+  },
   "author": "ChrisWren",
   "preferGlobal": true,
   "license": "MIT",
@@ -14,6 +18,7 @@
     "esprima": "~1.0.3",
     "teacher": "0.0.1",
     "colors": "~0.6.0-1",
-    "optimist": "~0.6.0"
+    "optimist": "~0.6.0",
+    "commander": "~1.2.0"
   }
 }
