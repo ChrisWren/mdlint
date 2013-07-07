@@ -1,10 +1,10 @@
 {
-  "name": "Scriptionary",
+  "name": "DocLinter",
   "version": "0.0.0",
-  "description": "Crawls READMEs to find typos and syntax errors",
-  "main": "index.js",
+  "description": "Lints READMEs to find typos and JavaScript syntax errors",
+  "main": "doclinter.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": ""
   },
   "author": "ChrisWren",
   "preferGlobal": true,
