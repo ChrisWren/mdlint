@@ -1,8 +1,9 @@
 {
-  "name": "DocLinter",
+  "name": "mdlint",
   "version": "0.0.0",
-  "description": "Lints READMEs to find typos and JavaScript syntax errors",
-  "main": "doclinter.js",
+  "description": "Lints Markdown files to find typos and JavaScript syntax errors",
+  "main": "index.js",
+  "bin": "./bin/mdlint",
   "scripts": {
     "test": ""
   },
@@ -18,6 +19,13 @@
     "esprima": "~1.0.3",
     "teacher": "0.0.1",
     "colors": "~0.6.0-1",
-    "commander": "~1.2.0"
+    "commander": "~1.2.0",
+    "lodash": "~1.3.1",
+    "glob": "~3.2.1"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-watch": "~0.4.4"
   }
 }
