@@ -1,5 +1,5 @@
 # mdlint
-> Lint your markdown files to find JavaScript syntax errors.
+> Lint JavaScript code blocks in markdown files to find syntax errors.
 
 # Installation
 ```bash
@@ -8,36 +8,41 @@ npm install -g mdlint
 
 # Usage
 
-mdlint is used as a command-line utility. You can point it at a local markdown file or a GitHub repository.
+mdlint is used as a command-line utility. You can point it at a set of local markdown files, a GitHub repository's README, or query the GitHub API to go bounty hunting for syntax errors.
 
-    mdlint <file> <type>
+  Usage: mdlint [options] [command]
 
-    Type:
-    -f, --file     file interpreted as a local markdown file
-    -r, --repo     file interpreted as GitHub repo README
-    -q, --query    file interpreted as a query for GitHub repos
+  Commands:
 
-    Options:
+    repo <repo>            lints a README from a GitHub repo
+    glob <glob>            lints local markdown files that match a glob
+    query <query> <page>   lints READMEs from repos returned by a GitHub query
+    *
+
+  Options:
+
+    -s, --silent   only report failing lints
     -h, --help     output usage information
     -V, --version  output the version number
   
-Here is an example of mdlint being run on a local file:
+Here is an example of mdlint being run on a set of local files:
 ```bash
-mdlint README.md -f
-```
-Here is an example of mdlint being run on a GitHub repo's README.md file:
-```bash
-mdlint ChrisWren/grunt-nodemon -r
+mdlint glob docs/*.md
 ```
 
-Here is an example of mdlint being run on a collection of JavaScript repositories from the result of a query:
+Here is an example of mdlint being run on a GitHub repo's README.md file:
 ```bash
-mdlint grunt -q
+mdlint repo ChrisWren/grunt-nodemon
+```
+
+Here is an example of mdlint being run on a collection of README from JavaScript repositories return from the `grunt` query:
+```bash
+mdlint query grunt
 ```
 
 ## Accepted Psuedocode
 
-mdlint accepts certain pre-defined psuedocode which it will preprocess so that an error isn't thrown during validation.
+mdlint accepts certain pre-defined psuedocode which it will preprocess so that an error isn't thrown during syntax validation.
 
 ### Object pseudocode
 
@@ -59,3 +64,7 @@ function () {
   
 }
 ```
+
+# Changelog
+
+**0.0.0** - Initial Release.
