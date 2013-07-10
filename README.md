@@ -1,6 +1,9 @@
 # mdlint
 > Lint JavaScript code blocks in markdown files to find syntax errors.
 
+[![NPM version](https://badge.fury.io/js/mdlint.png)](http://badge.fury.io/js/mdlint)  
+[![Dependency Status](https://gemnasium.com/ChrisWren/mdlint.png)](https://gemnasium.com/ChrisWren/mdlint) 
+
 # Installation
 ```bash
 npm install -g mdlint
