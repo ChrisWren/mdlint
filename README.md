@@ -8,16 +8,15 @@ npm install -g mdlint
 
 # Usage
 
-mdlint is used as a command-line utility. You can point it at a set of local markdown files, a GitHub repository's README, or query the GitHub API to go bounty hunting for syntax errors.
+mdlint is used as a command-line utility. You lint a set of local markdown files matched by a [glob](http://bogojoker.com/unix/tricks/globbing.html), a GitHub repository's README, or query the GitHub API to go bounty hunting for syntax errors.
 
-  Usage: mdlint [options] [command]
+    mdlint <command> <arg(s)> [options]
 
   Commands:
 
-    repo <repo>            lints a README from a GitHub repo
-    glob <glob>            lints local markdown files that match a glob
-    query <query> <page>   lints READMEs from repos returned by a GitHub query
-    *
+    repo  <user/repo>            lints a README from a GitHub repo
+    glob  <fileGlob>             lints local markdown files that match a file glob
+    query <queryString> [page]   lints READMEs from repos returned by a GitHub query
 
   Options:
 
@@ -25,17 +24,17 @@ mdlint is used as a command-line utility. You can point it at a set of local mar
     -h, --help     output usage information
     -V, --version  output the version number
   
+Here is an example of mdlint being run on a GitHub repo's README file:
+```bash
+mdlint repo ChrisWren/grunt-pages
+```
+
 Here is an example of mdlint being run on a set of local files:
 ```bash
 mdlint glob docs/*.md
 ```
 
-Here is an example of mdlint being run on a GitHub repo's README.md file:
-```bash
-mdlint repo ChrisWren/grunt-nodemon
-```
-
-Here is an example of mdlint being run on a collection of README from JavaScript repositories return from the `grunt` query:
+Here is an example of mdlint being run on a collection of READMEs  returned from the `grunt` [GitHub repositories search query](http://developer.github.com/v3/search/#search-repositories):
 ```bash
 mdlint query grunt
 ```
