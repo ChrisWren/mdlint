@@ -54,7 +54,7 @@ module.exports = function () {
 
   program
     .command('query <query> <page>')
-    .description('Query GitHub for repos to help people out by discovering syntax errors :).')
+    .description('lints READMEs from repos returned by a GitHub query.')
     .action(function (query, page) {
       request({
         uri: 'https://api.github.com/legacy/repos/search/' +
