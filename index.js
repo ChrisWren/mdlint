@@ -46,8 +46,8 @@ module.exports = function () {
   program
     .command('glob <glob>')
     .description('lints local markdown files that match a glob')
-    .action(function (glob) {
-      glob.sync(program.args[0]).forEach(function (file) {
+    .action(function (fileGlob) {
+      glob.sync(fileGlob).forEach(function (file) {
         parseMarkdown(fs.readFileSync(file, 'utf8'), file);
       });
     });
