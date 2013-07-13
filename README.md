@@ -2,7 +2,8 @@
 > Lint JavaScript code blocks in markdown files to find syntax errors.
 
 [![NPM version](https://badge.fury.io/js/mdlint.png)](http://badge.fury.io/js/mdlint)  
-[![Dependency Status](https://gemnasium.com/ChrisWren/mdlint.png)](https://gemnasium.com/ChrisWren/mdlint) 
+[![Dependency Status](https://gemnasium.com/ChrisWren/mdlint.png)](https://gemnasium.com/ChrisWren/mdlint)  
+[![Travis Status](https://travis-ci.org/ChrisWren/mdlint.png)](https://travis-ci.org/ChrisWren/mdlint)
 
 # Installation
 ```bash
