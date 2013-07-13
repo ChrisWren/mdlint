@@ -32,7 +32,7 @@ describe('mdlint', function () {
   });
 
   it('should lint READMEs from repos returned by a GitHub query', function (done) {
-    var lintProcess = spawn('node', ['./bin/mdlint', 'query', 'grunt']);
+    var lintProcess = spawn('node', ['./bin/mdlint', 'query', 'grunt-pages']);
     var logData = '';
 
     lintProcess.stdout.on('data', function (data) {
