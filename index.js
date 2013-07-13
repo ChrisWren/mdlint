@@ -35,7 +35,7 @@ module.exports = function () {
     });
 
   program
-    .command('user <GitHub username>')
+    .command('user <username>')
     .description('lints all READMEs from a user\'s GitHub repos')
     .action(function (user) {
       request({
