@@ -16,25 +16,25 @@ module.exports = function (grunt) {
         boss: true,
         eqnull: true,
         node: true,
-	globals: {
-	  describe: true,
-	  it: true
-	}
+        globals: {
+          describe: true,
+          it: true
+        }
       },
       all: {
-	src: ['*.js', 'test/*.js']
+        src: ['*.js', 'test/*.js']
       }
     },
     simplemocha: {
       options: {
-	globals: ['should'],
-	timeout: 10000,
-	ignoreLeaks: false,
-	ui: 'bdd',
-	reporter: 'spec'
+        globals: ['should'],
+        timeout: 10000,
+        ignoreLeaks: false,
+        ui: 'bdd',
+        reporter: 'spec'
       },
       all: {
-	src: ['test/*.js']
+        src: ['test/*.js']
       }
     }
   });
