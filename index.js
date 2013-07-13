@@ -59,14 +59,15 @@ module.exports = function () {
     });
 
   program
-    .command('query <query> [page]')
+    .command('query <query>')
+    .option('--page', 'The page of results to return. Defaults to 0.')
     .description('lints READMEs from repos returned by a GitHub query.')
-    .action(function (query, page) {
+    .action(function (query) {
       request({
         uri: 'https://api.github.com/legacy/repos/search/' +
              query +
              '?language=JavaScript' +
-             '&start_page=' + page || '0',
+             '&start_page=' + program.page || '0',
         headers: headers
       }, function (error, response, body) {
         if (!error && response.statusCode === 200) {
