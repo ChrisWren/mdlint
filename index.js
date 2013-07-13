@@ -3,7 +3,7 @@ var spawn = require('child_process').spawn;
 
 var program = require('commander');
 var request = require('request');
-var glob = require("glob")
+var glob = require("glob");
 var _ = require('lodash');
 var esprima = require('esprima');
 require('colors');
@@ -25,27 +25,18 @@ module.exports = function () {
 
   program
     .version('0.0.0')
-    .option('-s, --silent',  'only report failing lints')
+    .option('-s, --silent',  'only report failing lints');
 
   program
     .command('repo <repo>')
     .description('lints a README from a GitHub repo')
     .action(function (repo) {
-      if (repo.indexOf('/') !== -1) {
-        fetchREADME(repo)
-      } else {
-        request({
-          uri: 'https://api.github.com/users/' + repo + '/repos',
-          headers: headers
-        }, function (error, response, body) {
-
-        });
-      }
+      fetchREADME(repo);
     });
 
   program
     .command('glob <glob>')
-    .description('lints local markdown files that match a glob')
+    .description('lints local markdown files that match a file glob')
     .action(function (fileGlob) {
       glob.sync(fileGlob).forEach(function (file) {
         parseMarkdown(fs.readFileSync(file, 'utf8'), file);
@@ -53,7 +44,7 @@ module.exports = function () {
     });
 
   program
-    .command('query <query> <page>')
+    .command('query <query> [page]')
     .description('lints READMEs from repos returned by a GitHub query.')
     .action(function (query, page) {
       request({
@@ -63,7 +54,7 @@ module.exports = function () {
              '&start_page=' + page || '0',
         headers: headers
       }, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
+        if (!error && response.statusCode === 200) {
           JSON.parse(body)
             .repositories
             .forEach(function (repo) {
@@ -109,7 +100,7 @@ module.exports = function () {
       })
     },
     function (error, response, body) {
-      if (!error && response.statusCode == 200) {
+      if (!error && response.statusCode === 200) {
         parseMarkdown(body, repo);
       } else {
         if (response.headers['x-ratelimit-remaining'] === '0') {
@@ -250,9 +241,11 @@ module.exports = function () {
     }
 
     // Starts with an anonymous function
-    if (code.indexOf('function') === 0) code = 'var func = ' + code + ';';
+    if (code.indexOf('function') === 0) {
+      code = 'var func = ' + code + ';';
+    }
 
     // Contains ...
     return code.replace('...', '');
   }
-}
+};
