@@ -31,8 +31,8 @@ describe('mdlint', function () {
     });
   });
 
-  it('should lint READMEs from repos returned by a GitHub query', function (done) {
-    var lintProcess = spawn('node', ['./bin/mdlint', 'query', 'grunt-pages']);
+  it('should lint all READMEs from a users\'s GitHub repos', function (done) {
+    var lintProcess = spawn('node', ['./bin/mdlint', 'user', 'mishalshah']);
     var logData = '';
 
     lintProcess.stdout.on('data', function (data) {
@@ -45,8 +45,8 @@ describe('mdlint', function () {
     });
   });
 
-  it('should lint all READMEs from a users\'s GitHub repos', function (done) {
-    var lintProcess = spawn('node', ['./bin/mdlint', 'user', 'mishalshah']);
+  it('should lint READMEs from repos returned by a GitHub query', function (done) {
+    var lintProcess = spawn('node', ['./bin/mdlint', 'query', 'grunt-pages']);
     var logData = '';
 
     lintProcess.stdout.on('data', function (data) {
