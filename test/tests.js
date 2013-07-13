@@ -46,7 +46,7 @@ describe('mdlint', function () {
   });
 
   it('should lint all READMEs from a users\'s GitHub repos', function (done) {
-    var lintProcess = spawn('node', ['./bin/mdlint', 'user', 'ChrisWren']);
+    var lintProcess = spawn('node', ['./bin/mdlint', 'user', 'mishalshah']);
     var logData = '';
 
     lintProcess.stdout.on('data', function (data) {
