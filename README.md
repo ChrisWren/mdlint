@@ -76,5 +76,6 @@ function () {
 
 # Changelog
 
-**0.0.1** - Addded `user` command.
+**0.0.1** - Added `user` command.
+
 **0.0.0** - Initial Release.
