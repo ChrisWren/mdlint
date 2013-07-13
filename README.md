@@ -34,6 +34,11 @@ Here is an example of mdlint being run on a GitHub repo's README file:
 mdlint repo ChrisWren/grunt-pages
 ```
 
+Here is an example of mdlint being run on all READMEs from a user's GitHub repos:
+```bash
+mdlint user ChrisWren
+```
+
 Here is an example of mdlint being run on a set of local files:
 ```bash
 mdlint glob docs/*.md
