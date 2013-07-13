@@ -16,16 +16,33 @@ module.exports = function (grunt) {
         boss: true,
         eqnull: true,
         node: true,
-        globals: {}
+	globals: {
+	  describe: true,
+	  it: true
+	}
       },
-      lib_test: {
-        src: ['*.js']
+      all: {
+	src: ['*.js', 'test/*.js']
+      }
+    },
+    simplemocha: {
+      options: {
+	globals: ['should'],
+	timeout: 10000,
+	ignoreLeaks: false,
+	ui: 'bdd',
+	reporter: 'spec'
+      },
+      all: {
+	src: ['test/*.js']
       }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-simple-mocha');
 
   grunt.registerTask('default', ['jshint']);
+  grunt.registerTask('test', ['jshint', 'simplemocha']);
 
 };
