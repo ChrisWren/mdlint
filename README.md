@@ -19,6 +19,7 @@ mdlint is used as a command-line utility. You lint a set of local markdown files
   Commands:
 
     repo  <user/repo>            lints a README from a GitHub repo
+    user <GitHub username>       lints all READMEs from a user's GitHub repos
     glob  <fileGlob>             lints local markdown files that match a file glob
     query <queryString> [page]   lints READMEs from repos returned by a GitHub query
 

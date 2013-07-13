@@ -45,4 +45,18 @@ describe('mdlint', function () {
     });
   });
 
+  it('should lint all READMEs from a users\'s GitHub repos', function (done) {
+    var lintProcess = spawn('node', ['./bin/mdlint', 'user', 'ChrisWren']);
+    var logData = '';
+
+    lintProcess.stdout.on('data', function (data) {
+      logData += data;
+    });
+
+    lintProcess.stdout.on('close', function () {
+      logData.should.include('Markdown passed linting.');
+      done();
+    });
+  });
+
 });

@@ -35,6 +35,21 @@ module.exports = function () {
     });
 
   program
+    .command('user <GitHub username>')
+    .description('lints all READMEs from a user\'s GitHub repos')
+    .action(function (user) {
+      request({
+        uri: 'https://api.github.com/users/' + user + '/repos',
+        headers: headers
+      }, function (error, response, body) {
+        JSON.parse(body)
+          .forEach(function (repo) {
+            fetchREADME(repo.full_name);
+          });
+      });
+    });
+
+  program
     .command('glob <glob>')
     .description('lints local markdown files that match a file glob')
     .action(function (fileGlob) {
