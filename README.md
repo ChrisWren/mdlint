@@ -79,6 +79,8 @@ function () {
 
 # Changelog
 
+**0.0.3** - Added ability to parse *```javascript* code blocks.
+
 **0.0.2** - Made `page` parameter optional for `query` command.
 
 **0.0.1** - Added `user` command.

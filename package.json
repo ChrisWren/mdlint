@@ -1,6 +1,6 @@
 {
   "name": "mdlint",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Lints markdown files to find JavaScript syntax errors",
   "main": "index.js",
   "bin": "./bin/mdlint",
