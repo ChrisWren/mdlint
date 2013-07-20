@@ -39,15 +39,7 @@ module.exports = function () {
     .command('user <username>')
     .description('lints all READMEs from a user\'s GitHub repos')
     .action(function (user) {
-      request({
-        uri: 'https://api.github.com/users/' + user + '/repos',
-        headers: headers
-      }, function (error, response, body) {
-        JSON.parse(body)
-          .forEach(function (repo) {
-            fetchREADME(repo.full_name);
-          });
-      });
+      getUserREADMEs(user);
     });
 
   program
@@ -92,8 +84,16 @@ module.exports = function () {
 
   program
     .command('*')
-    .action(function () {
-      program.help();
+    .action(function (command) {
+      if (command.indexOf('/') !== -1) {
+        fetchREADME(command);
+      } else if (command.indexOf('*') !== -1 || command.indexOf('.') !== -1) {
+        glob.sync(command).forEach(function (file) {
+          lintMarkdown(fs.readFileSync(file, 'utf8'), file);
+        });
+      } else {
+        getUserREADMEs(command);
+      }
     });
 
   program
@@ -103,6 +103,29 @@ module.exports = function () {
     program.help();
   }
 };
+
+/**
+ * Fetches READMEs from a user's GitHub repos
+ * @param  {String} GitHub username
+ */
+function getUserREADMEs (user) {
+  request({
+    uri: 'https://api.github.com/users/' + user + '/repos',
+    headers: headers
+  }, function (error, response, body) {
+    var responseBody = JSON.parse(body);
+
+    if (responseBody.message) {
+      console.log('Error: the following user was not found: '.red + user.blue);
+      return;
+    }
+
+    JSON.parse(body)
+      .forEach(function (repo) {
+        fetchREADME(repo.full_name);
+      });
+  });
+}
 
 /**
  * Fetches a README from GitHub
