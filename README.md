@@ -52,6 +52,23 @@ Here is an example of mdlint being run on the collection of READMEs returned fro
 mdlint query grunt --page=2
 ```
 
+### Usage with implicit commands
+
+Any argument with a `/` will be interpreted as a GitHub repo, so you can lint a repo with the following shorthand command:
+```bash
+mdlint ChrisWren/grunt-nodemon
+```
+
+Any argument with a `*` or `.` will be interpreted as a local file glob, so you can lint a local file with the following shorthand command:
+```bash
+mdlint "README.md"
+```
+
+Any other argument will be intrepreted as a GitHub user, so you could lint all of a user's repos with the following shorthand command:
+```bash
+mdlint ChrisWren
+```
+
 ## Accepted JavaScript Partials
 
 mdlint accepts certain pre-defined JavaScript partials which it will preprocess so that an error isn't thrown during syntax validation.
