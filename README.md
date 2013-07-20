@@ -52,11 +52,11 @@ Here is an example of mdlint being run on the collection of READMEs returned fro
 mdlint query grunt --page=2
 ```
 
-## Accepted Psuedocode
+## Accepted JavaScript Partials
 
-mdlint accepts certain pre-defined psuedocode which it will preprocess so that an error isn't thrown during syntax validation.
+mdlint accepts certain pre-defined JavaScript partials which it will preprocess so that an error isn't thrown during syntax validation.
 
-### Object pseudocode
+### Object partials
 
 ```js
 gruntplugin: {
@@ -70,7 +70,7 @@ gruntplugin: {
 }
 ```
 
-### Function pseudocode
+### Function partials
 ```js
 function () {
   
