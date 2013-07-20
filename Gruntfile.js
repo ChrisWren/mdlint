@@ -1,13 +1,11 @@
 module.exports = function (grunt) {
 
   grunt.initConfig({
-    // Task configuration.
     jshint: {
       options: {
         curly: true,
         eqeqeq: true,
         immed: true,
-        latedef: true,
         newcap: true,
         noarg: true,
         sub: true,
@@ -36,10 +34,17 @@ module.exports = function (grunt) {
       all: {
         src: ['test/*.js']
       }
+    },
+    watch: {
+      tests: {
+        files: ['test/**.js'],
+        tasks: ['simplemocha']
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-simple-mocha');
 
   grunt.registerTask('default', ['jshint']);
