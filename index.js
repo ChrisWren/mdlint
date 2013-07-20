@@ -1,3 +1,12 @@
+/*
+ * mdlint
+ * https://github.com/ChrisWren/mdlint
+ *
+ * Copyright (c) 2013 Chris Wren & Contributors
+ * Licensed under the MIT license.
+ */
+'use strict';
+
 var fs      = require('fs');
 var spawn   = require('child_process').spawn;
 
