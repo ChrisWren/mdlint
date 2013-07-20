@@ -96,6 +96,8 @@ function () {
 
 # Changelog
 
+**0.0.4** - Added support for [implicit commands](https://github.com/ChrisWren/mdlint#usage-with-implicit-commands).
+
 **0.0.3** - Added ability to parse `javascript` code blocks.
 
 **0.0.2** - Made `page` parameter optional for `query` command.
