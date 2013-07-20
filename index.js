@@ -85,12 +85,12 @@ module.exports = function () {
   program
     .command('*')
     .action(function (command) {
-      if (command.indexOf('/') !== -1) {
-        fetchREADME(command);
-      } else if (command.indexOf('*') !== -1 || command.indexOf('.') !== -1) {
+      if (command.indexOf('*') !== -1 || command.indexOf('.') !== -1) {
         glob.sync(command).forEach(function (file) {
           lintMarkdown(fs.readFileSync(file, 'utf8'), file);
         });
+      } else if (command.indexOf('/') !== -1) {
+        fetchREADME(command);
       } else {
         getUserREADMEs(command);
       }
