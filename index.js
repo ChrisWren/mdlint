@@ -34,7 +34,7 @@ module.exports = function () {
   }
 
   program
-    .version('0.0.0')
+    .version(require('./package.json').version)
     .option('-s, --silent',  'only report failing lints');
 
   program
