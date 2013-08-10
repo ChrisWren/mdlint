@@ -1,6 +1,9 @@
 module.exports = function (grunt) {
 
+  var globalConfig = {};
+
   grunt.initConfig({
+    globalConfig: globalConfig,
     jshint: {
       options: {
         curly: true,
@@ -33,6 +36,9 @@ module.exports = function (grunt) {
       },
       all: {
         src: ['test/*.js']
+      },
+      spec: {
+        src: ['test/<%= globalConfig.file %>Tests.js']
       }
     },
     watch: {
@@ -43,11 +49,13 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-simple-mocha');
+  grunt.registerTask('default', ['jshint', 'simplemocha']);
 
-  grunt.registerTask('default', ['jshint']);
-  grunt.registerTask('test', ['jshint', 'simplemocha']);
+  grunt.registerTask('spec', 'Runs a task on a specified file', function (fileName) {
+    globalConfig.file = fileName;
+    grunt.task.run('simplemocha:spec');
+  });
+
+  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
 };
