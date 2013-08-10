@@ -42,7 +42,7 @@ Here is an example of mdlint being run on all READMEs from a user's GitHub repos
 mdlint user ChrisWren
 ```
 
-Here is an example of mdlint being run on a set of local files. Note that the glob expression must be wrapped in quotes as `*` is a special character in the terminal:
+Here is an example of mdlint being run on a set of local files. **Note that the glob expression must be wrapped in quotes as `*` is a special character in the terminal**:
 ```bash
 mdlint glob "docs/*.md"
 ```
