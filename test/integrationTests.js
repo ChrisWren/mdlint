@@ -26,7 +26,7 @@ describe('mdlint', function () {
     });
 
     lintProcess.stdout.on('close', function () {
-      logData.should.include('Markdown passed linting.');
+      logData.should.include('Markdown passed linting');
       done();
     });
   });
@@ -40,7 +40,7 @@ describe('mdlint', function () {
     });
 
     lintProcess.stdout.on('close', function () {
-      logData.should.include('Markdown passed linting.');
+      logData.should.include('Markdown passed linting');
       done();
     });
   });
@@ -54,7 +54,7 @@ describe('mdlint', function () {
     });
 
     lintProcess.stdout.on('close', function () {
-      logData.should.include('Markdown passed linting.');
+      logData.should.include('Markdown passed linting');
       done();
     });
   });
