@@ -28,7 +28,6 @@ module.exports = function (grunt) {
     },
     simplemocha: {
       options: {
-        globals: ['should'],
         timeout: 10000,
         ignoreLeaks: false,
         ui: 'bdd',
@@ -49,7 +48,7 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.registerTask('default', ['jshint', 'simplemocha']);
+  grunt.registerTask('default', ['jshint', 'simplemocha:all']);
 
   grunt.registerTask('spec', 'Runs a task on a specified file', function (fileName) {
     globalConfig.file = fileName;
