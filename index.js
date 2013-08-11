@@ -337,7 +337,7 @@ function getAuthToken () {
 function preprocessCode (code) {
 
   // Remove starting comments
-  if (code.indexOf('//') === 0) {
+  while (code.indexOf('//') === 0) {
     code = code.slice(code.indexOf('\n'));
   }
 
