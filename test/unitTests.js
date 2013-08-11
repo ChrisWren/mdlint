@@ -32,7 +32,27 @@ describe('mdlint', function () {
     it('should log a message that the linting failed if any code block fails validation', function () {
       var consoleSpy = sinon.stub(console, 'log');
       mdlint.__get__('lintMarkdown')(fs.readFileSync('test/fixtures/syntaxerror.md', 'utf8'), 'filename.md');
-      consoleSpy.lastCall.args[0].should.include('Markdown failed linting.');
+      consoleSpy.lastCall.args[0].should.eql('');
+      console.log.restore();
+    });
+
+  });
+
+  describe('logFileBreak', function () {
+
+    it('should log yellow filename blocks on even failing markdown files', function () {
+      var consoleSpy = sinon.stub(console, 'log');
+      mdlint.__set__('numFailedFiles', 0);
+      mdlint.__get__('logFileBreak')('README.md');
+      consoleSpy.lastCall.args[0].should.eql('\u001b[7m\u001b[33mREADME.md\u001b[39m\u001b[27m');
+      console.log.restore();
+    });
+
+    it('should log blue filename blocks on odd failing markdown files', function () {
+      var consoleSpy = sinon.stub(console, 'log');
+      mdlint.__set__('numFailedFiles', 1);
+      mdlint.__get__('logFileBreak')('README.md');
+      consoleSpy.lastCall.args[0].should.eql('\u001b[7m\u001b[34mREADME.md\u001b[39m\u001b[27m');
       console.log.restore();
     });
 
