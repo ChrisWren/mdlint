@@ -25,6 +25,9 @@ var headers = {
 // Location of token file to generate when user authenticates
 var tokenFile = __dirname + '/authtoken.txt';
 
+// Keep track of the number of failed files to change the file break color for readability
+var numFailedFiles = 0;
+
 module.exports = function () {
 
   // Use Auth Token if present
@@ -57,6 +60,10 @@ module.exports = function () {
       glob.sync(fileGlob).forEach(function (file) {
         lintMarkdown(fs.readFileSync(file, 'utf8'), file);
       });
+
+      if (numFailedFiles > 0) {
+        process.exit(1);
+      }
     });
 
   program
@@ -98,6 +105,9 @@ module.exports = function () {
         glob.sync(command).forEach(function (file) {
           lintMarkdown(fs.readFileSync(file, 'utf8'), file);
         });
+        if (numFailedFiles > 0) {
+          process.exit(1);
+        }
       } else if (command.indexOf('/') !== -1) {
         fetchREADME(command);
       } else {
@@ -198,9 +208,6 @@ function parseMarkdown (markdownContent) {
 
 // Boolean to keep track if the file break has been logged when discovering multiple errors in a single file
 var loggedFileBreak;
-
-// Keep track of the number of failed files to change the file break color for readability
-var numFailedFiles = 0;
 
 /**
  * Parses the JavaScript code blocks from the markdown file
