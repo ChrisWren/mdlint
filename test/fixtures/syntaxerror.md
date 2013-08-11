@@ -4,3 +4,9 @@ var x = {
   key2: 'value2'
 }
 ```
+
+```javascript
+utils.parse(function (content) {
+  console.log(content);
+};
+```
