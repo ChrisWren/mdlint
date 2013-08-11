@@ -1,9 +1,9 @@
-/*jshint expr: true*/
+/* jshint expr: true */
 var fs = require('fs');
 
+var rewire = require('rewire');
 require('should');
 var sinon = require('sinon');
-var rewire = require('rewire');
 
 var mdlint = rewire('../index.js');
 
@@ -11,7 +11,7 @@ describe('mdlint', function () {
 
   describe('lintMarkdown', function () {
 
-    it('should log the filename when the silent flag is false', function () {
+    it('should log the filename when the silent flag is not set', function () {
       var consoleSpy = sinon.stub(console, 'log');
       var file = 'filename.md';
       mdlint.__set__('program', { silent: false });
@@ -60,7 +60,7 @@ describe('mdlint', function () {
 
   describe('parseMarkdown', function () {
 
-    it('should extract the language and code from a code block', function () {
+    it('should extract the language and code from a markdown code block', function () {
       var codeBlocks = mdlint.__get__('parseMarkdown')(fs.readFileSync('test/fixtures/goodsyntax.md', 'utf8'));
       codeBlocks.should.eql([{
         lang: 'js',
@@ -155,15 +155,15 @@ describe('mdlint', function () {
     });
 
     it('should add a variable declaration to object literals', function () {
-      mdlint.__get__('preprocessCode')('{}').should.eql('var json = {};');
+      mdlint.__get__('preprocessCode')('{}').should.eql('var json = {}');
     });
 
     it('should wrap a lone object property with a valid object', function () {
-      mdlint.__get__('preprocessCode')('gruntplugin: {}').should.eql('var json = {gruntplugin: {}};');
+      mdlint.__get__('preprocessCode')('gruntplugin: {}').should.eql('var json = {gruntplugin: {}}');
     });
 
     it('should add a variable declaration to anonymous functions', function () {
-      mdlint.__get__('preprocessCode')('function () {}').should.eql('var func = function () {};');
+      mdlint.__get__('preprocessCode')('function () {}').should.eql('var func = function () {}');
     });
 
     it('should replace ... with an empty string', function () {
