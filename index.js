@@ -246,6 +246,7 @@ function logFileBreak (text) {
 /**
  * Validates that code blocks are valid JavaScript
  * @param  {Object} code A block of code from the markdown file containg the lang and code
+ * @param  {String} file Name of file currently being validated
  */
 function validateCodeBlock (codeBlock, file) {
   var lang = codeBlock.lang;
