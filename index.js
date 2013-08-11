@@ -196,23 +196,50 @@ function parseMarkdown (markdownContent) {
   return codeBlocks;
 }
 
+// Boolean to keep track if the file break has been logged when discovering multiple errors in a single file
+var loggedFileBreak;
+
+// Keep track of the number of failed files to change the file break color for readability
+var numFailedFiles = 0;
+
 /**
  * Parses the JavaScript code blocks from the markdown file
  * @param  {String} body Body of markdown file
  * @param  {String} file Filename
  */
 function lintMarkdown (body, file) {
-
-  if (!program.silent) {
-    console.log(file.blue.bold);
-  }
   var codeBlocks = parseMarkdown(body);
-  if (_.all(_.compact(codeBlocks), validateCodeBlock)) {
+
+  loggedFileBreak = false;
+
+  var failedFiles = _.reject(_.compact(codeBlocks), function (codeBlock) {
+    return validateCodeBlock(codeBlock, file);
+  });
+
+  if (failedFiles.length === 0) {
     if (!program.silent) {
-      console.log('Markdown passed linting.\n'.green);
+      console.log('Markdown passed linting for '.green + file.blue.bold + '\n');
     }
   } else {
-    console.log('Markdown failed linting.\n'.red);
+    if (numFailedFiles % 2 === 0) {
+    console.log('Markdown failed linting for '.red + file.yellow);
+    } else {
+      console.log('Markdown failed linting for '.red + file.blue);
+    }
+    numFailedFiles++;
+    console.log('');
+  }
+}
+
+/**
+ * Logs a break between files for readability
+ * @param  {String} text Text to log
+ */
+function logFileBreak (text) {
+  if (numFailedFiles % 2 === 0) {
+    console.log(text.yellow.inverse);
+  } else {
+    console.log(text.blue.inverse);
   }
 }
 
@@ -220,7 +247,7 @@ function lintMarkdown (body, file) {
  * Validates that code blocks are valid JavaScript
  * @param  {Object} code A block of code from the markdown file containg the lang and code
  */
-function validateCodeBlock (codeBlock) {
+function validateCodeBlock (codeBlock, file) {
   var lang = codeBlock.lang;
   var code = codeBlock.code;
 
@@ -252,8 +279,14 @@ function validateCodeBlock (codeBlock) {
 
       code = code.join('\n');
 
+      if (!loggedFileBreak) {
+        logFileBreak(file);
+        loggedFileBreak = true;
+      }
+
       console.log(e);
       console.log(code);
+
       return false;
     }
     return true;
