@@ -350,16 +350,17 @@ function preprocessCode (code) {
 
   // Starts with an object literal
   if (code.indexOf('{') === 0) {
-    code = 'var json = ' + code + ';';
+    code = 'var json = ' + code;
 
   // Starts with an object property
-  } else if (code.indexOf(': {') !== -1 && code.indexOf(': {') < code.indexOf('{')) {
-    code = 'var json = {' + code + '};';
+  } else if (code.indexOf(':') !== -1 &&
+             code.indexOf(':') < code.indexOf(' ')) {
+    code = 'var json = {' + code + '}';
   }
 
   // Starts with an anonymous function
   if (code.indexOf('function') === 0) {
-    code = 'var func = ' + code + ';';
+    code = 'var func = ' + code;
   }
 
   // Contains ...
