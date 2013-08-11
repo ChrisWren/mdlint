@@ -2,13 +2,12 @@
  * mdlint
  * https://github.com/ChrisWren/mdlint
  *
- * Copyright (c) 2013 Chris Wren & Contributors
+ * Copyright (c) 2013 Chris Wren
  * Licensed under the MIT license.
  */
 'use strict';
-
-var fs      = require('fs');
 var spawn   = require('child_process').spawn;
+var fs      = require('fs');
 
               require('colors');
 var program = require('commander');
@@ -17,13 +16,13 @@ var glob    = require('glob');
 var _       = require('lodash');
 var request = require('request');
 
-
 var headers = {
 
   // GitHub API requires the User-Agent Header to be set
   'User-Agent': 'mdlint'
 };
 
+// Location of token file to generate when user authenticates
 var tokenFile = __dirname + '/authtoken.txt';
 
 module.exports = function () {
@@ -91,6 +90,7 @@ module.exports = function () {
       });
     });
 
+  // Process implicit commands
   program
     .command('*')
     .action(function (command) {
