@@ -94,6 +94,10 @@ function () {
 }
 ```
 
+## Accepted Non-JavaScript statements
+
+- `...` will be removed from code blocks
+
 # Changelog
 
 **0.0.5** - Fixed bug where only the first error in a file was logged. Added prettier logging.
