@@ -96,6 +96,8 @@ function () {
 
 # Changelog
 
+**0.0.5** - Fixed bug where only the first error in a file was logged. Added prettier logging.
+
 **0.0.4** - Added support for [implicit commands](https://github.com/ChrisWren/mdlint#usage-with-implicit-commands).
 
 **0.0.3** - Added ability to parse `javascript` code blocks.
