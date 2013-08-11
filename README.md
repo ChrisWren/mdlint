@@ -12,29 +12,30 @@ npm install -g mdlint
 
 # Usage
 
+    mdlint [command] <arg> [options]
+
 mdlint is used as a command-line utility. It lints markdown files sourced from different locations using the following four commands:
 
-    mdlint <command> <arg> [options]
 
 **Commands:**
 
-    repo  <user/repo>       lints a README from a GitHub repo
-    user  <username>        lints all READMEs from a user's GitHub repos
     glob  <fileGlob>        lints local markdown files that match a file glob
+    user  <username>        lints all READMEs from a user's GitHub repos
+    repo  <user/repo>       lints a README from a GitHub repo
     query <query> [options] lints READMEs from repos returned by a GitHub query
 
 **Options:**
 
-    --page=<pageNum> page of results to return from query command. Defaults to 0.
     -s, --silent     only report failing lints
+    --page=<pageNum> page of results to return from query command. Defaults to 0.
     -h, --help       output usage information
     -V, --version    output the version number
 
 ## Sample Usage
 
-Here is an example of mdlint being run on a GitHub repo's README file:
+Here is an example of mdlint being run on a set of local files only reporting failing files. **Note that the glob expression must be wrapped in quotes as `*` is a special character in the terminal**:
 ```bash
-mdlint repo ChrisWren/grunt-pages
+mdlint glob "docs/*.md" -s
 ```
 
 Here is an example of mdlint being run on all READMEs from a user's GitHub repos:
@@ -42,10 +43,12 @@ Here is an example of mdlint being run on all READMEs from a user's GitHub repos
 mdlint user ChrisWren
 ```
 
-Here is an example of mdlint being run on a set of local files. **Note that the glob expression must be wrapped in quotes as `*` is a special character in the terminal**:
+
+Here is an example of mdlint being run on a GitHub repo's README file:
 ```bash
-mdlint glob "docs/*.md"
+mdlint repo ChrisWren/grunt-pages
 ```
+
 
 Here is an example of mdlint being run on the collection of READMEs returned from page 2 of the `grunt` [GitHub repositories search query](http://developer.github.com/v3/search/#search-repositories):
 ```bash
