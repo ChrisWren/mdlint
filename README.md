@@ -103,6 +103,8 @@ function () {
 
 # Changelog
 
+**0.0.6** - mdlint exits with `1` when any file fails linting. Improved object partial parsing.
+
 **0.0.5** - Fixed bug where only the first error in a file was logged. Added prettier logging.
 
 **0.0.4** - Added support for [implicit commands](https://github.com/ChrisWren/mdlint#usage-with-implicit-commands).
