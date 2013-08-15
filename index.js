@@ -37,20 +37,20 @@ module.exports = function () {
 
   program
     .version(require('./package.json').version)
-    .option('-s, --silent',  'only report failing lints');
+    .option('-v, --verbose',  'report linting for all files');
 
   program
     .command('repo <repo>')
     .description('lints a README from a GitHub repo')
     .action(function (repo) {
-      fetchREADME(repo);
+      fetchRepoREADME(repo);
     });
 
   program
     .command('user <username>')
     .description('lints all READMEs from a user\'s GitHub repos')
     .action(function (user) {
-      getUserREADMEs(user);
+      fetchUserREADMEs(user);
     });
 
   program
@@ -63,6 +63,8 @@ module.exports = function () {
 
       if (numFailedFiles > 0) {
         process.exit(1);
+      } else if (!program.verbose) {
+        console.log('All files passed linting.');
       }
     });
 
@@ -82,7 +84,7 @@ module.exports = function () {
           JSON.parse(body)
             .repositories
             .forEach(function (repo) {
-              fetchREADME(repo.owner + '/' + repo.name);
+              fetchRepoREADME(repo.owner + '/' + repo.name);
             });
         } else {
           if (response.headers['x-ratelimit-remaining'] === '0') {
@@ -109,9 +111,9 @@ module.exports = function () {
           process.exit(1);
         }
       } else if (command.indexOf('/') !== -1) {
-        fetchREADME(command);
+        fetchRepoREADME(command);
       } else {
-        getUserREADMEs(command);
+        fetchUserREADMEs(command);
       }
     });
 
@@ -127,7 +129,7 @@ module.exports = function () {
  * Fetches READMEs from a user's GitHub repos
  * @param  {String} GitHub username
  */
-function getUserREADMEs (user) {
+function fetchUserREADMEs (user) {
   request({
     uri: 'https://api.github.com/users/' + user + '/repos',
     headers: headers
@@ -207,7 +209,7 @@ function parseMarkdown (markdownContent) {
 }
 
 // Boolean to keep track if the file break has been logged when discovering multiple errors in a single file
-var loggedFileBreak;
+var didLogFileBreak;
 
 /**
  * Parses the JavaScript code blocks from the markdown file
@@ -217,14 +219,14 @@ var loggedFileBreak;
 function lintMarkdown (body, file) {
   var codeBlocks = parseMarkdown(body);
 
-  loggedFileBreak = false;
+  didLogFileBreak = false;
 
-  var failedFiles = _.reject(_.compact(codeBlocks), function (codeBlock) {
+  var failedCodeBlocks = _.reject(_.compact(codeBlocks), function (codeBlock) {
     return validateCodeBlock(codeBlock, file);
   });
 
-  if (failedFiles.length === 0) {
-    if (!program.silent) {
+  if (failedCodeBlocks.length === 0) {
+    if (program.verbose) {
       console.log('Markdown passed linting for '.green + file.blue.bold + '\n');
     }
   } else {
@@ -287,9 +289,9 @@ function validateCodeBlock (codeBlock, file) {
 
       code = code.join('\n');
 
-      if (!loggedFileBreak) {
+      if (!didLogFileBreak) {
         logFileBreak(file);
-        loggedFileBreak = true;
+        didLogFileBreak = true;
       }
 
       console.log(e);
