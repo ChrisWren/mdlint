@@ -100,6 +100,12 @@ function () {
 
 # Changelog
 
+**0.1.0** - Removed `--silent` flag in place for `--verbose` flag. By default, don't log passing markdown files, simply display a success message.
+
+**Breaking changes:**
+
+- `--silent` flag no longer exists.
+
 **0.0.6** - mdlint exits with `1` when any file fails linting. Improved object partial parsing.
 
 **0.0.5** - Fixed bug where only the first error in a file was logged. Added prettier logging.
