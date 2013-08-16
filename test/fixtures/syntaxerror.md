@@ -10,3 +10,9 @@ utils.parse(function (content) {
   console.log(content);
 };
 ```
+
+```json
+{
+  key: 'value'
+}
+```
