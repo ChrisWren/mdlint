@@ -1,5 +1,4 @@
 var spawn = require('child_process').spawn;
-
 require('should');
 
 describe('mdlint', function () {
@@ -12,7 +11,7 @@ describe('mdlint', function () {
       var exitCode;
 
       before(function (done) {
-        var lintProcess = spawn('node', ['./bin/mdlint', 'glob', 'test/fixtures/partials.md']);
+        var lintProcess = spawn('node', ['./bin/mdlint', 'glob', 'test/fixtures/goodsyntax.md']);
 
         lintProcess.stdout.on('data', function (data) {
           logData += data;
@@ -24,9 +23,13 @@ describe('mdlint', function () {
         });
       });
 
-      it('should log the local markdown files that passed the file glob', function () {
-        logData.should.include('Markdown passed linting');
-        logData.should.include('test/fixtures/partials.md');
+      it('should not log the local markdown files that pass linting', function () {
+        logData.should.not.include('Markdown passed linting');
+        logData.should.not.include('test/fixtures/partials.md');
+      });
+
+      it('should log a success message', function () {
+        logData.should.not.include('Markdown passed linting');
       });
 
       it('should have an exit code of 0', function () {
@@ -51,10 +54,10 @@ describe('mdlint', function () {
         });
       });
 
-      it('should log the local markdown files that passed and failed the file glob', function () {
-        logData.should.include('Markdown passed linting');
-        logData.should.include('test/fixtures/goodsyntax.md');
-        logData.should.include('test/fixtures/partials.md');
+      it('should log the local markdown files that failed linting', function () {
+        logData.should.not.include('Markdown passed linting');
+        logData.should.not.include('test/fixtures/goodsyntax.md');
+        logData.should.not.include('test/fixtures/partials.md');
 
         logData.should.include('Markdown failed linting');
         logData.should.include('test/fixtures/syntaxerror.md');
@@ -65,33 +68,35 @@ describe('mdlint', function () {
         exitCode.should.eql(1);
       });
     });
-
   });
 
-  describe('repo', function () {
+  if (process.env.NODE_ENV !== 'dev') {
 
-    it('should lint a README from a GitHub repo', function (done) {
-      var lintProcess = spawn('node', ['./bin/mdlint', 'repo', 'ChrisWren/mdlint']);
-      var logData = '';
+    describe('repo', function () {
 
-      lintProcess.stdout.on('data', function (data) {
-        logData += data;
-      });
+      it('should lint a README from a GitHub repo', function (done) {
+        var lintProcess = spawn('node', ['./bin/mdlint', 'repo', 'ChrisWren/mdlint', '-v']);
+        var logData = '';
 
-      lintProcess.on('close', function () {
-        logData.should.include('Markdown passed linting');
-        done();
+        lintProcess.stdout.on('data', function (data) {
+          logData += data;
+        });
+
+        lintProcess.on('close', function () {
+          logData.should.include('Markdown passed linting');
+          done();
+        });
       });
     });
+  }
 
-  });
 
-  describe('when run with the -s flag', function () {
+  describe('when run with the -v flag', function () {
     var logData = '';
     var exitCode;
 
     before(function (done) {
-      var lintProcess = spawn('node', ['./bin/mdlint', 'glob', 'test/fixtures/*.md', '-s']);
+      var lintProcess = spawn('node', ['./bin/mdlint', 'glob', 'test/fixtures/*.md', '-v']);
 
       lintProcess.stdout.on('data', function (data) {
         logData += data;
@@ -103,47 +108,50 @@ describe('mdlint', function () {
       });
     });
 
-    it('should only log the markdown files that failed the linting', function () {
-      logData.should.not.include('Markdown passed linting');
-      logData.should.not.include('test/fixtures/goodsyntax.md');
-      logData.should.not.include('test/fixtures/partials.md');
+    it('should log the result of all markdown being linted', function () {
+      logData.should.include('Markdown passed linting');
+      logData.should.include('test/fixtures/goodsyntax.md');
+      logData.should.include('test/fixtures/partials.md');
 
       logData.should.include('Markdown failed linting');
       logData.should.include('test/fixtures/syntaxerror.md');
     });
   });
 
-  describe('user', function () {
+  if (process.env.NODE_ENV !== 'dev') {
 
-    it('should lint all READMEs from a users\'s GitHub repos', function (done) {
-      var lintProcess = spawn('node', ['./bin/mdlint', 'user', 'mishalshah']);
-      var logData = '';
+    describe('user', function () {
 
-      lintProcess.stdout.on('data', function (data) {
-        logData += data;
-      });
+      it('should lint all READMEs from a users\'s GitHub repos', function (done) {
+        var lintProcess = spawn('node', ['./bin/mdlint', 'user', 'mishalshah', '-v']);
+        var logData = '';
 
-      lintProcess.on('close', function () {
-        logData.should.include('Markdown passed linting');
-        done();
-      });
-    });
-  });
+        lintProcess.stdout.on('data', function (data) {
+          logData += data;
+        });
 
-  describe('query', function () {
-
-    it('should lint READMEs from repos returned by a GitHub query', function (done) {
-      var lintProcess = spawn('node', ['./bin/mdlint', 'query', 'grunt-pages']);
-      var logData = '';
-
-      lintProcess.stdout.on('data', function (data) {
-        logData += data;
-      });
-
-      lintProcess.on('close', function () {
-        logData.should.include('Markdown passed linting');
-        done();
+        lintProcess.on('close', function () {
+          logData.should.include('Markdown passed linting');
+          done();
+        });
       });
     });
-  });
+
+    describe('query', function () {
+
+      it('should lint READMEs from repos returned by a GitHub query', function (done) {
+        var lintProcess = spawn('node', ['./bin/mdlint', 'query', 'grunt-pages', '-v']);
+        var logData = '';
+
+        lintProcess.stdout.on('data', function (data) {
+          logData += data;
+        });
+
+        lintProcess.on('close', function () {
+          logData.should.include('Markdown passed linting');
+          done();
+        });
+      });
+    });
+  }
 });

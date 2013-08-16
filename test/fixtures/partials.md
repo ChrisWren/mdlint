@@ -7,9 +7,16 @@ someObject: {
 ```
 
 ```js
+someObject : {
+  
+}
+```
+
+```js
 someFunction: function () {
   
 },
+
 someProperty: true
 ```
 
