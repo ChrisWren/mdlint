@@ -25,6 +25,9 @@ var headers = {
 // Location of token file to generate when user authenticates
 var tokenFile = __dirname + '/authtoken.txt';
 
+// Keep track of the number of files to parse so that if all files pass a success message can be logged
+var numFilesToParse = 0;
+
 // Keep track of the number of failed files to change the file break color for readability
 var numFailedFiles = 0;
 
@@ -57,7 +60,9 @@ module.exports = function () {
     .command('glob <glob>')
     .description('lints local markdown files that match a file glob')
     .action(function (fileGlob) {
-      glob.sync(fileGlob).forEach(function (file) {
+      var files = glob.sync(fileGlob);
+      numFilesToParse = files.length;
+      files.forEach(function (file) {
         lintMarkdown(fs.readFileSync(file, 'utf8'), file);
       });
 
@@ -104,7 +109,9 @@ module.exports = function () {
     .command('*')
     .action(function (command) {
       if (command.indexOf('*') !== -1 || command.indexOf('.') !== -1) {
-        glob.sync(command).forEach(function (file) {
+        var files = glob.sync(command);
+        numFilesToParse = files.length;
+        files.forEach(function (file) {
           lintMarkdown(fs.readFileSync(file, 'utf8'), file);
         });
         if (numFailedFiles > 0) {
@@ -143,7 +150,7 @@ function fetchUserREADMEs (user) {
 
     JSON.parse(body)
       .forEach(function (repo) {
-        fetchREADME(repo.full_name);
+        fetchRepoREADME(repo.full_name);
       });
   });
 }
@@ -152,7 +159,7 @@ function fetchUserREADMEs (user) {
  * Fetches a README from GitHub
  * @param  {String} repo URL of repo to fetch
  */
-function fetchREADME (repo) {
+function fetchRepoREADME (repo) {
   request({
     uri: 'https://api.github.com/repos/' + repo + '/readme',
     headers: _.extend(headers, {
@@ -225,9 +232,13 @@ function lintMarkdown (body, file) {
     return validateCodeBlock(codeBlock, file);
   });
 
+  numFilesToParse--;
+
   if (failedCodeBlocks.length === 0) {
     if (program.verbose) {
       console.log('Markdown passed linting for '.green + file.blue.bold + '\n');
+    } else if (numFilesToParse === 0) {
+      console.log('All markdown files passed linting'.green);
     }
   } else {
     if (numFailedFiles % 2 === 0) {
