@@ -26,23 +26,22 @@ mdlint is used as a command-line utility. It lints markdown files sourced from d
 
 **Options:**
 
-    -s, --silent     only report failing lints
+    -v, --verbose    report linting of all files
     --page=<pageNum> page of results to return from query command. Defaults to 0.
     -h, --help       output usage information
     -V, --version    output the version number
 
 ## Sample Usage
 
-Here is an example of mdlint being run on a set of local files only reporting failing files. **Note that the glob expression must be wrapped in quotes as `*` is a special character in the terminal**:
+Here is an example of mdlint being run on a set of local files. **Note that the glob expression must be wrapped in quotes as `*` is a special character in the terminal**:
 ```bash
-mdlint glob "docs/*.md" -s
+mdlint glob "docs/*.md"
 ```
 
 Here is an example of mdlint being run on all READMEs from a user's GitHub repos:
 ```bash
 mdlint user ChrisWren
 ```
-
 
 Here is an example of mdlint being run on a GitHub repo's README file:
 ```bash
