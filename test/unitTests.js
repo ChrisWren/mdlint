@@ -11,21 +11,22 @@ describe('mdlint', function () {
 
   describe('lintMarkdown', function () {
 
-    it('should log the filename when the silent flag is not set', function () {
+    it('should log the filename of passing files when the verbose flag is set', function () {
       var consoleSpy = sinon.stub(console, 'log');
-      var file = 'filename.md';
-      mdlint.__set__('program', { silent: false });
-      mdlint.__get__('lintMarkdown')('', 'filename.md');
+      var file = 'goodsyntax.md';
+      mdlint.__set__('program', { verbose: true });
+      mdlint.__get__('lintMarkdown')('', file);
       consoleSpy.firstCall.args[0].should.include(file);
       console.log.restore();
     });
 
     it('should log a message that the linting passed if all code blocks pass validation', function () {
       var consoleSpy = sinon.stub(console, 'log');
-      var file = 'filename.md';
-      mdlint.__set__('program', { silent: false });
-      mdlint.__get__('lintMarkdown')(fs.readFileSync('test/fixtures/goodsyntax.md', 'utf8'), 'filename.md');
-      consoleSpy.firstCall.args[0].should.include(file);
+      var file = 'goodsyntax.md';
+      mdlint.__set__('program', { verbose: false });
+      mdlint.__set__('numFilesToParse', 1);
+      mdlint.__get__('lintMarkdown')(fs.readFileSync('test/fixtures/' + file, 'utf8'), file);
+      consoleSpy.firstCall.args[0].should.include('All markdown files passed linting');
       console.log.restore();
     });
 
