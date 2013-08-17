@@ -29,6 +29,10 @@ mdlint is used as a command-line utility. It lints markdown files sourced from d
     -h, --help       output usage information
     -V, --version    output the version number
 
+## Usage with Grunt
+
+To integrate mdlint into your CI testing with [Grunt](https://gruntjs.com), check out the [grunt-mdlint](https://github.com/ChrisWren/grunt-mdlint) plugin!
+
 ## Sample Usage
 
 Here is an example of mdlint being run on a set of local files. **Note that the glob expression must be wrapped in quotes as `*` is a special character in the terminal**:
