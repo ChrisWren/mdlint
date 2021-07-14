@@ -7,31 +7,41 @@ var sinon = require('sinon');
 
 var mdlint = rewire('../index.js');
 
+let sandbox;
+before(() => {
+  sandbox = sinon.createSandbox();
+});
+beforeEach(() => {
+  sandbox.restore();
+});
+
 describe('mdlint', function () {
 
   describe('lintMarkdown', function () {
 
     it('should log the filename of passing files when the verbose flag is set', function () {
-      var consoleSpy = sinon.stub(console, 'log');
+      var consoleSpy = sandbox.stub(console, 'log');
       var file = 'goodsyntax.md';
-      mdlint.__set__('program', { verbose: true });
+      let opts = () => { return { verbose: true }; };
+      mdlint.__set__('program.opts', opts);
       mdlint.__get__('lintMarkdown')('', file);
-      consoleSpy.firstCall.args[0].should.include(file);
+      consoleSpy.firstCall.args[0].should.containEql(file);
       console.log.restore();
     });
 
     it('should log a message that the linting passed if all code blocks pass validation', function () {
-      var consoleSpy = sinon.stub(console, 'log');
+      var consoleSpy = sandbox.stub(console, 'log');
       var file = 'goodsyntax.md';
-      mdlint.__set__('program', { verbose: false });
+      let opts = () => { return { verbose: false }; };
+      mdlint.__set__('program.opts', opts);
       mdlint.__set__('numFilesToParse', 1);
       mdlint.__get__('lintMarkdown')(fs.readFileSync('test/fixtures/' + file, 'utf8'), file);
-      consoleSpy.firstCall.args[0].should.include('All markdown files passed linting');
+      consoleSpy.firstCall.args[0].should.containEql('All markdown files passed linting');
       console.log.restore();
     });
 
     it('should log a message that the linting failed if any code block fails validation', function () {
-      var consoleSpy = sinon.stub(console, 'log');
+      var consoleSpy = sandbox.stub(console, 'log');
       mdlint.__get__('lintMarkdown')(fs.readFileSync('test/fixtures/syntaxerror.md', 'utf8'), 'filename.md');
       consoleSpy.lastCall.args[0].should.eql('');
       console.log.restore();
@@ -42,7 +52,7 @@ describe('mdlint', function () {
   describe('logFileBreak', function () {
 
     it('should log yellow filename blocks on even failing markdown files', function () {
-      var consoleSpy = sinon.stub(console, 'log');
+      var consoleSpy = sandbox.stub(console, 'log');
       mdlint.__set__('numFailedFiles', 0);
       mdlint.__get__('logFileBreak')('README.md');
       consoleSpy.lastCall.args[0].should.eql('\u001b[7m\u001b[33mREADME.md\u001b[39m\u001b[27m');
@@ -50,7 +60,7 @@ describe('mdlint', function () {
     });
 
     it('should log blue filename blocks on odd failing markdown files', function () {
-      var consoleSpy = sinon.stub(console, 'log');
+      var consoleSpy = sandbox.stub(console, 'log');
       mdlint.__set__('numFailedFiles', 1);
       mdlint.__get__('logFileBreak')('README.md');
       consoleSpy.lastCall.args[0].should.eql('\u001b[7m\u001b[34mREADME.md\u001b[39m\u001b[27m');
@@ -84,7 +94,7 @@ describe('mdlint', function () {
       describe('if the JSON cannot be parsed', function () {
 
         it('should return false', function () {
-          sinon.stub(console, 'log');
+          sandbox.stub(console, 'log');
           mdlint.__get__('validateCodeBlock')({
             lang: 'json',
             code: 'aahkkh{key: a\'value\'}'
@@ -93,12 +103,12 @@ describe('mdlint', function () {
         });
 
         it('should log an error with the error output from JSON.parse', function () {
-          var consoleSpy = sinon.stub(console, 'log');
+          var consoleSpy = sandbox.stub(console, 'log');
           mdlint.__get__('validateCodeBlock')({
             lang: 'json',
             code: '{key: "value"}'
           });
-          consoleSpy.lastCall.args[0].should.include('{key: "value"}');
+          consoleSpy.lastCall.args[0].should.containEql('{key: "value"}');
           console.log.restore();
         });
 
@@ -118,7 +128,7 @@ describe('mdlint', function () {
       describe('if the JavaScript cannot be parsed', function () {
 
         it('should return false', function () {
-          sinon.stub(console, 'log');
+          sandbox.stub(console, 'log');
           mdlint.__get__('validateCodeBlock')({
             lang: 'js',
             code: 'var x = ;\'test\';'
@@ -127,12 +137,12 @@ describe('mdlint', function () {
         });
 
         it('should log an error including the code block', function () {
-          var consoleSpy = sinon.stub(console, 'log');
+          var consoleSpy = sandbox.stub(console, 'log');
           mdlint.__get__('validateCodeBlock')({
             lang: 'js',
             code: 'var x = ;\'test\';'
           });
-          consoleSpy.lastCall.args[0].should.include('var x');
+          consoleSpy.lastCall.args[0].should.containEql('var x');
           console.log.restore();
         });
 

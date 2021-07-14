@@ -68,7 +68,7 @@ module.exports = function () {
 
       if (numFailedFiles > 0) {
         process.exit(1);
-      } else if (!program.verbose) {
+      } else if (!program.opts().verbose) {
         console.log('All files passed linting.');
       }
     });
@@ -235,14 +235,14 @@ function lintMarkdown (body, file) {
   numFilesToParse--;
 
   if (failedCodeBlocks.length === 0) {
-    if (program.verbose) {
+    if (program.opts().verbose) {
       console.log('Markdown passed linting for '.green + file.blue.bold + '\n');
     } else if (numFilesToParse === 0) {
       console.log('All markdown files passed linting'.green);
     }
   } else {
     if (numFailedFiles % 2 === 0) {
-    console.log('Markdown failed linting for '.red + file.yellow);
+      console.log('Markdown failed linting for '.red + file.yellow);
     } else {
       console.log('Markdown failed linting for '.red + file.blue);
     }
@@ -294,9 +294,14 @@ function validateCodeBlock (codeBlock, file) {
       // Highlight error in code
       code = code.split('\n');
 
-      code[line] = code[line].slice(0, column).magenta +
-                   code[line][column].red +
-                   code[line].slice(column + 1).magenta;
+      // Handle breaking edge cases
+      if (code[line].length > 2 || e.description !== "Unexpected end of input") {
+        code[line] = code[line].slice(0, column).magenta +
+          code[line][column].red +
+          code[line].slice(column + 1).magenta;
+      } else {
+        code[line] = code[line].red;
+      }
 
       code = code.join('\n');
 
