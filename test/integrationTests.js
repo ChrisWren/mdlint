@@ -24,12 +24,12 @@ describe('mdlint', function () {
       });
 
       it('should not log the local markdown files that pass linting', function () {
-        logData.should.not.include('Markdown passed linting');
-        logData.should.not.include('test/fixtures/partials.md');
+        logData.should.not.containEql('Markdown passed linting');
+        logData.should.not.containEql('test/fixtures/partials.md');
       });
 
       it('should log a success message', function () {
-        logData.should.not.include('Markdown passed linting');
+        logData.should.not.containEql('Markdown passed linting');
       });
 
       it('should have an exit code of 0', function () {
@@ -55,12 +55,12 @@ describe('mdlint', function () {
       });
 
       it('should log the local markdown files that failed linting', function () {
-        logData.should.not.include('Markdown passed linting');
-        logData.should.not.include('test/fixtures/goodsyntax.md');
-        logData.should.not.include('test/fixtures/partials.md');
+        logData.should.not.containEql('Markdown passed linting');
+        logData.should.not.containEql('test/fixtures/goodsyntax.md');
+        logData.should.not.containEql('test/fixtures/partials.md');
 
-        logData.should.include('Markdown failed linting');
-        logData.should.include('test/fixtures/syntaxerror.md');
+        logData.should.containEql('Markdown failed linting');
+        logData.should.containEql('test/fixtures/syntaxerror.md');
 
       });
 
@@ -83,7 +83,7 @@ describe('mdlint', function () {
         });
 
         lintProcess.on('close', function () {
-          logData.should.include('Markdown passed linting');
+          logData.should.containEql('Markdown passed linting');
           done();
         });
       });
@@ -109,12 +109,12 @@ describe('mdlint', function () {
     });
 
     it('should log the result of all markdown being linted', function () {
-      logData.should.include('Markdown passed linting');
-      logData.should.include('test/fixtures/goodsyntax.md');
-      logData.should.include('test/fixtures/partials.md');
+      logData.should.containEql('Markdown passed linting');
+      logData.should.containEql('test/fixtures/goodsyntax.md');
+      logData.should.containEql('test/fixtures/partials.md');
 
-      logData.should.include('Markdown failed linting');
-      logData.should.include('test/fixtures/syntaxerror.md');
+      logData.should.containEql('Markdown failed linting');
+      logData.should.containEql('test/fixtures/syntaxerror.md');
     });
   });
 
@@ -131,7 +131,7 @@ describe('mdlint', function () {
         });
 
         lintProcess.on('close', function () {
-          logData.should.include('Markdown passed linting');
+          logData.should.containEql('Markdown passed linting');
           done();
         });
       });
@@ -148,7 +148,7 @@ describe('mdlint', function () {
         });
 
         lintProcess.on('close', function () {
-          logData.should.include('Markdown passed linting');
+          logData.should.containEql('Markdown passed linting');
           done();
         });
       });

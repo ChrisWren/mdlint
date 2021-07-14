@@ -6,6 +6,7 @@ module.exports = function (grunt) {
     globalConfig: globalConfig,
     jshint: {
       options: {
+        esversion: 11,
         curly: true,
         eqeqeq: true,
         immed: true,
@@ -20,7 +21,10 @@ module.exports = function (grunt) {
         globals: {
           describe: true,
           it: true,
-          before: true
+          before: true,
+          beforeEach: true,
+          after: true,
+          afterEach: true
         }
       },
       all: {
@@ -56,6 +60,8 @@ module.exports = function (grunt) {
     grunt.task.run('simplemocha:spec');
   });
 
-  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-simple-mocha');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
 };
